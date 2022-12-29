@@ -1,5 +1,5 @@
 const responseState = {
-    success: (data) => {
+    success: (data = {}) => {
         return {
             code: 0,
             data
@@ -39,7 +39,7 @@ const responseState = {
             }
         }
     },
-    artcle: {
+    article: {
         NoTitle: () => {
             return {
                 code: 6,
@@ -62,6 +62,12 @@ const responseState = {
             return {
                 code: 9,
                 msg: '文章内容过长，请精简'
+            }
+        },
+        NotFindArticle: () => {
+            return {
+                code: 10,
+                msg: '文章不存在。'
             }
         }
     },
@@ -88,6 +94,18 @@ const responseState = {
             return {
                 code: -99,
                 msg:'没有权限访问！'
+            }
+        },
+        MissParams: () => {
+            return {
+                code: -3,
+                msg: '缺少对应参数'
+            }
+        },
+        ParamsError: () => {
+            return {
+                code: -4,
+                msg: '参数不合法'
             }
         }
 

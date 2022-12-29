@@ -24,7 +24,7 @@ class UserController {
             }
             if (bcrypt.compareSync(password, res.password)) {
                 delete res.password
-                ctx.cookies.set('token', jwt.sign(res, 'pLikejhwLikeyD1', { expiresIn: '1d' }))
+                ctx.cookies.set('token', jwt.sign(res, 'pLikejhwLikeyD1', { expiresIn: '10d' }),{ httpOnly:false })
                 ctx.body = success({ userInfo: res })
             } else {
                 ctx.body = login.passwordError(res)

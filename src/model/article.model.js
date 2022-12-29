@@ -19,6 +19,13 @@ const Article = seq.define('article', {
         allowNull: false,
         unique: false,
         comment: '作者id'
+    },
+    isDelete: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: false,
+        defaultValue:0,
+        comment: '删除标示'
     }
 })
 // try{

@@ -2,13 +2,12 @@ const { global } = require('../constant/responseState')
 const jwt = require('jsonwebtoken')
 
 const globalMiddleware = {
-    // 全局捕获错误
+    // 全局捕获未知错误
     catchError: async (ctx, next) => {
         try {
             await next();
         } catch (error) {
-            console.log("捕获到异常", error)
-            return ctx.body = global.error();
+            ctx.body = global.error();
         }
     },
     // 检查token并把用户信息存在ctx里
@@ -30,8 +29,19 @@ const globalMiddleware = {
             ctx.userInfo = userInfo
             await next()
         } catch(err) {
-            console.log(err);
             ctx.body = global.JsonWebTokenError()
+        }
+    },
+    // 捕获所有操作数据库的参数报错
+    catchPramasError: async(ctx, next) => {
+        try {
+            await next();
+        } catch (error) {
+            if(error.name === 'SequelizeDatabaseError') {
+                ctx.body = global.ParamsError()
+                return
+            }
+            ctx.body = global.error();
         }
     }
 }

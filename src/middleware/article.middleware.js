@@ -1,21 +1,29 @@
 const Article = require("../model/article.model");
-const { artcle } = require('../constant/responseState')
+const { article,global } = require('../constant/responseState')
 
 const articleMiddleware = {
     articleCheck: async ( ctx, next ) => {
         const { title ,content } = ctx.request.body
         if(!title) {
-            ctx.body = artcle.NoTitle()
+            ctx.body = article.NoTitle()
             return
         } else if(title.length > 16) {
-            ctx.body = artcle.TitleOverlength()
+            ctx.body = article.TitleOverlength()
             return
         }
         if(!content) {
-            ctx.body = artcle.NoContent()
+            ctx.body = article.NoContent()
             return 
         } else if (content.length > 5000) {
-            ctx.body = artcle.ContentOverlength()
+            ctx.body = article.ContentOverlength()
+            return
+        }
+        await next()
+    },
+    articleIdCheck: async ( ctx, next ) => {
+        const { id } = ctx.request.body
+        if(!id) {
+            ctx.body = global.MissParams()
             return
         }
         await next()

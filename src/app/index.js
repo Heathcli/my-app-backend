@@ -3,6 +3,8 @@ const path = require('path')
 const Koa = require('koa')
 const KoaBody = require('koa-body')
 const cors = require('koa2-cors')
+const koaStatic = require('koa-static')
+const { format } = require("date-fns");
 
 const router = require('../router')
 const globalMiddleware = require('../middleware/global.middleware')
@@ -22,10 +24,11 @@ app.use(cors({
     allowMethods: ['GET', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }))
+app.use(koaStatic(path.join(__dirname,'../static')))
 app.use(KoaBody({
     multipart: true,
     formidable: {
-        uploadDir: path.join(__dirname,'../upload'),
+        uploadDir: path.join(__dirname,'../static/uploads'),
         keepExtensions: true
     }
 }))
