@@ -8,14 +8,14 @@ const articleMiddleware = {
         if(!title) {
             ctx.body = article.NoTitle()
             return
-        } else if(title.length > 16) {
+        } else if(title.length > 100) {
             ctx.body = article.TitleOverlength()
             return
         }
         if(!content) {
             ctx.body = article.NoContent()
             return 
-        } else if (content.length > 5000) {
+        } else if (content.length > 5000000) {
             ctx.body = article.ContentOverlength()
             return
         }

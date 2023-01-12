@@ -20,6 +20,19 @@ const Article = seq.define('article', {
         unique: false,
         comment: '作者id'
     },
+    cover:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+        comment: '封面图链接'
+    },
+    isOffline:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: false,
+        defaultValue:1, // 默认先进草稿箱
+        comment: '已下线标示'
+    },
     isDelete: {
         type: DataTypes.INTEGER,
         allowNull: false,

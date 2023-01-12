@@ -6,7 +6,9 @@ const {
     getArticle, 
     modArticle,
     offlineArticle,
-    onlineArticle 
+    onlineArticle,
+    deleteArticle,
+    recoveryArticle
 } = require('../service/article.service')
 
 class Article {
@@ -23,12 +25,15 @@ class Article {
     // 添加文章
     addArticle = async (ctx, next) => {
 
-        const { title, content } = ctx.request.body
+        const { title, content, cover } = ctx.request.body
         const { user_name } = ctx.userInfo
         await createArticle({
             title,
             content,
-            author: user_name
+            author: user_name,
+            cover,
+            isDelete: 0,
+            isOffLine: 1
         }).then((res) => {
             ctx.body = success({ article: res })
         })
@@ -70,7 +75,7 @@ class Article {
             }
         })
     }
-    // 删除（下线）文章
+    // 下线文章
     offline = async (ctx, next) => {
         const { id } = ctx.request.body
         await offlineArticle({
@@ -83,10 +88,36 @@ class Article {
             }
         })
     }
-    // 上线文章
+    // 发布文章
     online = async (ctx, next) => {
         const { id } = ctx.request.body
         await onlineArticle({
+            id
+        }).then((res) => {
+            if (!res) {
+                ctx.body = article.NotFindArticle()
+            } else {
+                ctx.body = success()
+            }
+        })
+    }
+    // 删除文章
+    delArticle = async (ctx, next) => {
+        const { id } = ctx.request.body
+        await deleteArticle({
+            id
+        }).then((res) => {
+            if (!res) {
+                ctx.body = article.NotFindArticle()
+            } else {
+                ctx.body = success()
+            }
+        })
+    }
+    // 恢复文章
+    recoverArticle = async (ctx, next) => {
+        const { id } = ctx.request.body
+        await recoveryArticle({
             id
         }).then((res) => {
             if (!res) {

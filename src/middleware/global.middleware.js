@@ -29,6 +29,7 @@ const globalMiddleware = {
             ctx.userInfo = userInfo
             await next()
         } catch(err) {
+            console.log(err);
             ctx.body = global.JsonWebTokenError()
         }
     },
